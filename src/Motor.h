@@ -12,7 +12,7 @@ struct motor_configs {
     int pwm_freq        = 0;
     bool reversed       = false;
     uint ppr            = 0;
-    // float K_P, K_I, K_D;
+    float K_P=0.0, K_I=0.0, K_D=0.0;
 };
 
 class Motor
@@ -38,6 +38,7 @@ public:
     void set_pinpwm(int pinpwm);
     void config(motor_configs);
     float get_rpm();
+    float get_speed();
 
     int64_t get_encoder_clear();
     int64_t get_encoder();

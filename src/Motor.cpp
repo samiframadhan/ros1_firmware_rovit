@@ -28,6 +28,7 @@ void Motor::config(motor_configs conf){
     }
     digitalWrite(configs.pin_enable, HIGH);
     // motor_pid.SetTunings(conf.K_P, conf.K_I, conf.K_D);
+    motor_pid.SetTunings(configs.K_P, configs.K_I, configs.K_D);
 }
 
 void Motor::set_pinpwm(int pinpwm){
@@ -121,9 +122,13 @@ float Motor::get_rpm(){
     return input;
 }
 
+float Motor::get_speed(){
+    return input;
+}
+
 bool Motor::auto_speed(float rpm){
     set_point = rpm;
-    input = get_rpm();
+    get_rpm();
     motor_pid.Compute();
     set_pwm(output);
 }

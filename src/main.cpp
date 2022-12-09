@@ -17,10 +17,18 @@ ros::Publisher data_pub("robot_covid", &robot_data_msg);
 
 void cmdvel_cb(const geometry_msgs::Twist& cmd_data){
   nh.loginfo("Test");
-  robot_data_msg.imu_acc = cmd_data.linear;
-  robot_data_msg.imu_gyro = cmd_data.angular;
-  motor_kiri.set_pwm(cmd_data.linear.x * 10);
-  motor_kanan.set_pwm(cmd_data.linear.x * 10);
+  
+  // Test jalan PID motor
+  motor_kiri.auto_speed(cmd_data.linear.x * 100);
+  motor_kanan.auto_speed(cmd_data.linear.x * 100);
+
+  // Test jalan sederhana motor
+  // motor_kiri.set_pwm(cmd_data.linear.x * 200);
+  // motor_kanan.set_pwm(cmd_data.linear.x * 200);
+  
+  robot_data_msg.left_speed = motor_kiri.get_speed(); //Dalam RPM
+  robot_data_msg.right_speed = motor_kanan.get_speed(); //Dalam RPM
+
   data_pub.publish(&robot_data_msg);
 }
 
@@ -32,6 +40,10 @@ void setup_motor(){
   motor_kiri_configs.pwm_freq       = 1000;
   motor_kiri_configs.reversed       = true;
   motor_kiri_configs.ppr            = 10;
+  // Uncomment untuk pengetesan fitur PID
+  motor_kiri_configs.K_P            = 1.0;
+  motor_kiri_configs.K_I            = 1.0;
+  motor_kiri_configs.K_D            = 0.0;
   motor_kiri.config(motor_kiri_configs);
   motor_kanan_configs.pin_enable     = 14;
   motor_kanan_configs.pin_encoder    = 15;
@@ -40,6 +52,10 @@ void setup_motor(){
   motor_kanan_configs.pwm_freq       = 1000;
   motor_kanan_configs.reversed       = true;
   motor_kanan_configs.ppr            = 10;
+  // Uncomment untuk pengetesan fitur PID
+  motor_kanan_configs.K_P            = 1.0;
+  motor_kanan_configs.K_I            = 1.0;
+  motor_kanan_configs.K_D            = 0.0;
   motor_kanan.config(motor_kanan_configs);
 }
 
