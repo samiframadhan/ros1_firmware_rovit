@@ -14,7 +14,9 @@ motor_configs motor_kanan_configs;
 
 // static char* TAG = "debug";
 rovit_fw_msgs::Rovit robot_data_msg;
+rovit_fw_msgs::RovitDebug debug_data_msg;
 ros::Publisher data_pub("robot_covid", &robot_data_msg);
+ros::Publisher debug_pub("robot_covid", &debug_data_msg);
 
 void cmdvel_cb(const geometry_msgs::Twist& cmd_data){
   nh.loginfo("Test");
@@ -22,6 +24,12 @@ void cmdvel_cb(const geometry_msgs::Twist& cmd_data){
   // Test jalan PID motor
   motor_kiri.auto_speed(cmd_data.linear.x * 100);
   motor_kanan.auto_speed(cmd_data.linear.x * 100);
+  debug_data_msg.PID_kiri.input = motor_kiri.get_speed();
+  debug_data_msg.PID_kanan.input = motor_kanan.get_speed();
+  debug_data_msg.PID_kiri.output = motor_kiri.get_control_out();
+  debug_data_msg.PID_kanan.output = motor_kanan.get_control_out();
+  debug_data_msg.header.stamp = nh.now();
+  debug_pub.publish(&debug_data_msg);
 
   // Test jalan sederhana motor
   // motor_kiri.set_pwm(cmd_data.linear.x * 200);
