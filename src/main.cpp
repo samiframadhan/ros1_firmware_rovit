@@ -15,8 +15,8 @@ motor_configs motor_kanan_configs;
 // static char* TAG = "debug";
 rovit_fw_msgs::Rovit robot_data_msg;
 rovit_fw_msgs::RovitDebug debug_data_msg;
-ros::Publisher data_pub("robot_covid", &robot_data_msg);
-ros::Publisher debug_pub("robot_covid", &debug_data_msg);
+ros::Publisher data_pub("robot_covid/data", &robot_data_msg);
+ros::Publisher debug_pub("robot_covid/debug", &debug_data_msg);
 
 void cmdvel_cb(const geometry_msgs::Twist& cmd_data){
   nh.loginfo("Test");
@@ -34,9 +34,9 @@ void cmdvel_cb(const geometry_msgs::Twist& cmd_data){
   // Test jalan sederhana motor
   // motor_kiri.set_pwm(cmd_data.linear.x * 200);
   // motor_kanan.set_pwm(cmd_data.linear.x * 200);
-  
-  robot_data_msg.left_speed = motor_kiri.get_speed(); //Dalam RPM
-  robot_data_msg.right_speed = motor_kanan.get_speed(); //Dalam RPM
+  // robot_data_msg.left_speed = motor_kiri.get_rpm(); //Dalam RPM
+  // robot_data_msg.right_speed = motor_kanan.get_rpm(); //Dalam RPM
+  // Catat rpm maksimal yang didapatkan
 
   data_pub.publish(&robot_data_msg);
 }
@@ -48,7 +48,7 @@ void setup_motor(){
   motor_kiri_configs.pin_direction  = 13;
   motor_kiri_configs.pwm_freq       = 1000;
   motor_kiri_configs.reversed       = true;
-  motor_kiri_configs.ppr            = 10;
+  motor_kiri_configs.ppr            = 10; // Pulse per revolution (pulse per satu putaran)
   // Uncomment untuk pengetesan fitur PID
   motor_kiri_configs.K_P            = 1.0;
   motor_kiri_configs.K_I            = 1.0;
@@ -77,6 +77,7 @@ void setup() {
   nh.initNode();
   nh.subscribe(cmd_sub);
   nh.advertise(data_pub);
+  nh.advertise(debug_pub);
 }
 
 void loop() {
