@@ -39,6 +39,7 @@ public:
     void config(motor_configs);
     float get_rpm();
     float get_speed();
+    float get_control_out();
 
     int64_t get_encoder_clear();
     int64_t get_encoder();

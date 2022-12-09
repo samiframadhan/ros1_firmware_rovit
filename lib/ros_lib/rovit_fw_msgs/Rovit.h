@@ -1,18 +1,21 @@
-#ifndef _ROS_rovit_fw_msgs_rovit_msgs_h
-#define _ROS_rovit_fw_msgs_rovit_msgs_h
+#ifndef _ROS_rovit_fw_msgs_Rovit_h
+#define _ROS_rovit_fw_msgs_Rovit_h
 
 #include <stdint.h>
 #include <string.h>
 #include <stdlib.h>
 #include "ros/msg.h"
+#include "std_msgs/Header.h"
 #include "geometry_msgs/Vector3.h"
 
 namespace rovit_fw_msgs
 {
 
-  class rovit_msgs : public ros::Msg
+  class Rovit : public ros::Msg
   {
     public:
+      typedef std_msgs::Header _header_type;
+      _header_type header;
       typedef geometry_msgs::Vector3 _imu_acc_type;
       _imu_acc_type imu_acc;
       typedef geometry_msgs::Vector3 _imu_gyro_type;
@@ -22,7 +25,8 @@ namespace rovit_fw_msgs
       typedef float _right_speed_type;
       _right_speed_type right_speed;
 
-    rovit_msgs():
+    Rovit():
+      header(),
       imu_acc(),
       imu_gyro(),
       left_speed(0),
@@ -33,6 +37,7 @@ namespace rovit_fw_msgs
     virtual int serialize(unsigned char *outbuffer) const override
     {
       int offset = 0;
+      offset += this->header.serialize(outbuffer + offset);
       offset += this->imu_acc.serialize(outbuffer + offset);
       offset += this->imu_gyro.serialize(outbuffer + offset);
       union {
@@ -61,6 +66,7 @@ namespace rovit_fw_msgs
     virtual int deserialize(unsigned char *inbuffer) override
     {
       int offset = 0;
+      offset += this->header.deserialize(inbuffer + offset);
       offset += this->imu_acc.deserialize(inbuffer + offset);
       offset += this->imu_gyro.deserialize(inbuffer + offset);
       union {
@@ -88,8 +94,8 @@ namespace rovit_fw_msgs
      return offset;
     }
 
-    virtual const char * getType() override { return "rovit_fw_msgs/rovit_msgs"; };
-    virtual const char * getMD5() override { return "6d915cbb3f4c7cbdf2eae2427842c050"; };
+    virtual const char * getType() override { return "rovit_fw_msgs/Rovit"; };
+    virtual const char * getMD5() override { return "60e22a9577674575e73f1a696bed6e1e"; };
 
   };
 

@@ -1,6 +1,7 @@
 #include <Arduino.h>
 #include <ros.h>
-#include <rovit_fw_msgs/rovit_msgs.h>
+#include <rovit_fw_msgs/Rovit.h>
+#include <rovit_fw_msgs/RovitDebug.h>
 #include <geometry_msgs/Twist.h>
 #include <Motor.h>
 
@@ -12,7 +13,7 @@ motor_configs motor_kiri_configs;
 motor_configs motor_kanan_configs;
 
 // static char* TAG = "debug";
-rovit_fw_msgs::rovit_msgs robot_data_msg;
+rovit_fw_msgs::Rovit robot_data_msg;
 ros::Publisher data_pub("robot_covid", &robot_data_msg);
 
 void cmdvel_cb(const geometry_msgs::Twist& cmd_data){

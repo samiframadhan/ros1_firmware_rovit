@@ -126,6 +126,10 @@ float Motor::get_speed(){
     return input;
 }
 
+float Motor::get_control_out(){
+    return output;
+}
+
 bool Motor::auto_speed(float rpm){
     set_point = rpm;
     get_rpm();
