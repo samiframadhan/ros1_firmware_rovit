@@ -44,8 +44,8 @@ void cmdvel_cb(const geometry_msgs::Twist& cmd_data){
 void setup_motor(){
   motor_kiri_configs.pin_enable     = 4;
   motor_kiri_configs.pin_encoder    = 5;
-  motor_kiri_configs.pin_pwm        = 12;
-  motor_kiri_configs.pin_direction  = 13;
+  motor_kiri_configs.pin_pwm        = 13;
+  motor_kiri_configs.pin_direction  = 12;
   motor_kiri_configs.pwm_freq       = 1000;
   motor_kiri_configs.reversed       = true;
   motor_kiri_configs.ppr            = 10; // Pulse per revolution (pulse per satu putaran)
@@ -56,8 +56,8 @@ void setup_motor(){
   motor_kiri.config(motor_kiri_configs);
   motor_kanan_configs.pin_enable     = 14;
   motor_kanan_configs.pin_encoder    = 15;
-  motor_kanan_configs.pin_pwm        = 18;
-  motor_kanan_configs.pin_direction  = 19;
+  motor_kanan_configs.pin_pwm        = 19;
+  motor_kanan_configs.pin_direction  = 18;
   motor_kanan_configs.pwm_freq       = 1000;
   motor_kanan_configs.reversed       = true;
   motor_kanan_configs.ppr            = 10;
